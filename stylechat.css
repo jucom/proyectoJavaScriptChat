@@ -1,0 +1,19 @@
+/*formatage text*/
+h1
+{
+    color: blue;
+    text-align: center;
+}
+
+
+/* On travaille sur la balise body, donc sur TOUTE la page */
+body
+{
+    background-color: lightblue; /* Le fond de la page sera noir */
+    color: white; /* Le texte de la page sera blanc */
+}
+
+header
+{
+    border-radius: 10px;
+}
