@@ -1,8 +1,10 @@
 /*formatage text*/
 h1
 {
-    color: blue;
+    color: lightgray;
     text-align: center;
+    font-size: 50px; /* Titres de 40 pixels */
+    font-style: italic;/* Titres en italiques */
 }
 
 
@@ -11,9 +13,63 @@ body
 {
     background-color: lightblue; /* Le fond de la page sera noir */
     color: white; /* Le texte de la page sera blanc */
+    background-image:url("fond_chat.jpeg");
+    background-size: 100%;
 }
 
 header
 {
     border-radius: 10px;
+}
+
+#chatBody
+{
+    border-radius: 10px;
+    background-color: white;
+    overflow:scroll;
+      overflow-x:auto;
+      overflow-y:none;
+   
+    position: absolute;
+    right: 50px;
+    bottom: 110px;
+    left: 250px;
+    width: 900px;
+    height: 400px;
+}
+
+#chatSide
+{
+    border-radius: 10px;
+    background-color: white;
+    overflow:scroll;
+      overflow-x:auto;
+      overflow-y:none;
+   
+    position: absolute;
+    bottom: 35px;
+    left: 30px;
+    width: 200px;
+    height: 475px;
+    background-image:url("fond_side.jpg");
+}
+
+#mensaje
+{
+    border-radius: 10px;
+    position: absolute;
+    right: 50px;
+    bottom: 50px;
+    left: 250px;
+    width: 900px;		
+}
+
+#boutonSend
+{
+  border-radius: 10px;
+    position: absolute;
+    right: 65px;
+    bottom: 60px;
+    width: 70px;
+    height: 25px;
 }
