@@ -51,6 +51,9 @@ public class ServiceThread extends Thread {
 				else if (pageRequested.equals("/fond_chat.jpeg")) {
 					sendFile(Paths.get("./../fond_chat.jpeg"));					
 				}
+				else if (pageRequested.equals("/fond_side.jpg")) {
+					sendFile(Paths.get("./../fond_side.jpg"));					
+				}
 			}
 			inp.close();
 			s.close();
@@ -89,11 +92,11 @@ public class ServiceThread extends Thread {
 		outp.write(packetHeader.getBytes());
 		outp.write(fileToSend);
 
-		System.out.println("In sendFile : ");
-		System.out.println("---------------------------------");
-		System.out.println(packetHeader);
-		System.out.println(new String(fileToSend));
-		System.out.println("---------------------------------");
+//		System.out.println("In sendFile : ");
+//		System.out.println("---------------------------------");
+//		System.out.println(packetHeader);
+//		System.out.println(new String(fileToSend));
+//		System.out.println("---------------------------------");
 		outp.close();	
 	}
 }
