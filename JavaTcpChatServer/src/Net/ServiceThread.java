@@ -36,7 +36,7 @@ public class ServiceThread extends Thread {
 			System.out.println("---------------------------------");
 			System.out.println(request);
 			System.out.println("---------------------------------");
-			if (request.startsWith("GET ") || request.startsWith("POST ")){
+			if (request.startsWith("GET ")){ // || request.startsWith("POST ")){
 				pageRequested = request.split(" ")[1];
 				System.out.println("pageRequested : ");
 				System.out.println("---------------------------------");
@@ -53,6 +53,9 @@ public class ServiceThread extends Thread {
 				}
 				else if (pageRequested.equals("/fond_side.jpg")) {
 					sendFile(Paths.get("./../fond_side.jpg"));					
+				}
+				else if (pageRequested.equals("/favicon.ico")) {
+					sendFile(Paths.get("./../favicon.ico"));					
 				}
 			}
 			inp.close();
