@@ -15,6 +15,6 @@ public class ChatLine {
 	}
 	
 	public String toString() {
-		return sendTime + ' ' + name + " : " + message + '\n';
+		return sendTime + ' ' + name + " : " + message;
 	}
 }
