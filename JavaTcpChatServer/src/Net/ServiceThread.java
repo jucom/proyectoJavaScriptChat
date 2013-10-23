@@ -97,21 +97,30 @@ public class ServiceThread extends Thread {
 		
 		if (pageRequested.equals("/chat.html")) {
 			sendFile(Paths.get("./../chat.html"),"text/html");
+			System.out.println("In sendElementForPageCreation : page sent.");
 		}
 		else if (pageRequested.equals("/stylechat.css")) {
-			sendFile(Paths.get("./../stylechat.css"),"text/css");					
+			sendFile(Paths.get("./../stylechat.css"),"text/css");		
+			System.out.println("In sendElementForPageCreation : page sent.");			
 		}
 		else if (pageRequested.equals("/fond_chat.jpeg")) {
-			sendFile(Paths.get("./../fond_chat.jpeg"),"image/jpeg");					
+			sendFile(Paths.get("./../fond_chat.jpeg"),"image/jpeg");	
+			System.out.println("In sendElementForPageCreation : page sent.");				
 		}
 		else if (pageRequested.equals("/fond_side.jpg")) {
-			sendFile(Paths.get("./../fond_side.jpg"),"image/jpeg");					
+			sendFile(Paths.get("./../fond_side.jpg"),"image/jpeg");		
+			System.out.println("In sendElementForPageCreation : page sent.");			
 		}
 		else if (pageRequested.equals("/favicon.ico")) {
-			sendFile(Paths.get("./../favicon.ico"),"image/x-icon");					
+			sendFile(Paths.get("./../favicon.ico"),"image/x-icon");		
+			System.out.println("In sendElementForPageCreation : page sent.");			
+		}
+		else if (pageRequested.equals("/chatScript.js")) {
+			sendFile(Paths.get("./../chatScript.js"),"application/x-javascript ");	
+			System.out.println("In sendElementForPageCreation : page sent.");				
 		}
 		else {
-			System.out.println("In doPageCreationRequest : This is not a pageCreationRequest.");
+			System.out.println("In sendElementForPageCreation : This is not a pageCreationRequest.");
 			sent = false;
 		}
 		return sent;
