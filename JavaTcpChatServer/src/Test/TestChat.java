@@ -2,11 +2,15 @@ package Test;
 
 import Chat.Chat;
 import Chat.ChatLine;
+import Net.ServidorWeb;
 import convertion.ChatConvert;
 
 public class TestChat {
 	public static void main (String[] args) {
+		test1();
+		test2();
 		test3();
+		test4();
 	}
 
 	public static void test1() {
@@ -61,8 +65,20 @@ public class TestChat {
 		System.out.println("#########");
 		System.out.println("# TEST3 #");
 		System.out.println("#########");
-		ChatLine chatline = ChatConvert.convertChatParticipantsFromJSON("name:'Justine',sendTime:10:25:30,message:'Hello'");
+		ChatLine chatline = ChatConvert.convertChatParticipantsFromJSON("name:'Justine',sendTime:'10:25:30',message:'Hello'");
 		System.out.println(chatline.toString());
+	}
+	
+	public static void test4() {
+		System.out.println("#########");
+		System.out.println("# TEST4 #");
+		System.out.println("#########");
+		try {
+			ServidorWeb.runServer();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 }
