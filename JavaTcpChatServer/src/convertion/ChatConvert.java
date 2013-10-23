@@ -113,7 +113,22 @@ public class ChatConvert {
 	//}
 	// gives a ChatLine with :
 	// <name = "Gabriel" sendTime="21:26:10" message="hello">
-	public static ChatLine convertChatParticipantsFromJSON(String object) {		
-		return new ChatLine("Unknown","Unknown","Unknown");
+	public static ChatLine convertChatParticipantsFromJSON(String object) {	
+		//find the name
+		String name = object.split("name:")[1];
+		name = name.split("sendTime:")[0];
+		name = name.substring(1, name.length() - 2);
+		//System.out.println("name : " + name);
+		//find the sendTime
+		String sendTime = object.split("sendTime:")[1];
+		sendTime = sendTime.split("message")[0];
+		sendTime = sendTime.substring(1, sendTime.length() - 2);
+		//System.out.println("sendTime : " + sendTime);
+		//find the message
+		String message = object.split("message:")[1];
+		message = message.substring(1, message.length() - 1);
+		//System.out.println("message : " + message);
+		
+		return new ChatLine(message,name,sendTime);
 	}
 }
