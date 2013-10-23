@@ -65,7 +65,7 @@ public class ChatConvert {
 				result += "},\n";
 			}
 			participant = partIt.next();
-			result += "ChatLine" + beginNumerotation+":{\n";
+			result += "Participant" + beginNumerotation+":{\n";
 			result += "name:\'" + participant.getName() +"\'\n";
 			beginNumerotation ++;
 		}
