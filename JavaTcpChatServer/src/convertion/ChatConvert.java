@@ -73,32 +73,47 @@ public class ChatConvert {
 		return result;
 	}
 	
-	//Convert chatLines in a JSON notation to an array of chatLine in Java formatting
+//	//Convert chatLines in a JSON notation to an array of chatLine in Java formatting
+//	//ex : 
+//	//{
+//	//		ChatLine3:	{
+//	//					name:'Gabriel',
+//	//					sendTime: '21:26:10',
+//	//					message: 'hello'
+//	//				},
+//	//		ChatLine4:	{
+//	//					name:'Gabriel',
+//	//					sendTime: '21:26:20',
+//	//					message: 'No one?'
+//	//				},
+//	//		ChatLine5:	{
+//	//					name:'Gabriel',
+//	//					sendTime: '21:26:30',
+//	//					message: 'fuck'
+//	//				}
+//	//}
+//	// gives : a list with those three messages with :
+//	// at 0 : <name = "Gabriel" sendTime="21:26:10" message="hello">
+//	// at 1 : <name = "Gabriel" sendTime="21:26:20" message="No one?">
+//	// at 2 : <name = "Gabriel" sendTime="21:26:30" message="fuck">
+//	public static ArrayList<ChatLine> convertChatParticipantsFromJSON(String object) {
+//		ArrayList<ChatLine> result = new ArrayList<ChatLine>();
+//		result.add(new ChatLine("Unknown","Unknown","Unknown"));
+//		return result;
+//	}
+	
+	//Convert a ChatLine in a JSON notation to an array of chatLine in Java formatting
 	//ex : 
 	//{
 	//		ChatLine3:	{
 	//					name:'Gabriel',
 	//					sendTime: '21:26:10',
 	//					message: 'hello'
-	//				},
-	//		ChatLine4:	{
-	//					name:'Gabriel',
-	//					sendTime: '21:26:20',
-	//					message: 'No one?'
-	//				},
-	//		ChatLine5:	{
-	//					name:'Gabriel',
-	//					sendTime: '21:26:30',
-	//					message: 'fuck'
 	//				}
 	//}
-	// gives : a list with those three messages with :
-	// at 0 : <name = "Gabriel" sendTime="21:26:10" message="hello">
-	// at 1 : <name = "Gabriel" sendTime="21:26:20" message="No one?">
-	// at 2 : <name = "Gabriel" sendTime="21:26:30" message="fuck">
-	public static ArrayList<ChatLine> convertChatParticipantsFromJSON(String object) {
-		ArrayList<ChatLine> result = new ArrayList<ChatLine>();
-		result.add(new ChatLine("Unknown","Unknown","Unknown"));
-		return result;
+	// gives a ChatLine with :
+	// <name = "Gabriel" sendTime="21:26:10" message="hello">
+	public static ChatLine convertChatParticipantsFromJSON(String object) {		
+		return new ChatLine("Unknown","Unknown","Unknown");
 	}
 }
