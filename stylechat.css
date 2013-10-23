@@ -26,6 +26,7 @@ header
 {
     border-radius: 10px;
     background-color: white;
+    color:blue;
     overflow:scroll;
       overflow-x:auto;
       overflow-y:none;
@@ -41,7 +42,7 @@ header
 #chatSide
 {
     border-radius: 10px;
-    background-color: white;
+    color:black;
     overflow:scroll;
       overflow-x:auto;
       overflow-y:none;
