@@ -96,19 +96,19 @@ public class ServiceThread extends Thread {
 		boolean sent = true;
 		
 		if (pageRequested.equals("/chat.html")) {
-			sendFile(Paths.get("./../chat.html"));
+			sendFile(Paths.get("./../chat.html"),"text/html");
 		}
 		else if (pageRequested.equals("/stylechat.css")) {
-			sendFile(Paths.get("./../stylechat.css"));					
+			sendFile(Paths.get("./../stylechat.css"),"text/css");					
 		}
 		else if (pageRequested.equals("/fond_chat.jpeg")) {
-			sendFile(Paths.get("./../fond_chat.jpeg"));					
+			sendFile(Paths.get("./../fond_chat.jpeg"),"image/jpeg");					
 		}
 		else if (pageRequested.equals("/fond_side.jpg")) {
-			sendFile(Paths.get("./../fond_side.jpg"));					
+			sendFile(Paths.get("./../fond_side.jpg"),"image/jpeg");					
 		}
 		else if (pageRequested.equals("/favicon.ico")) {
-			sendFile(Paths.get("./../favicon.ico"));					
+			sendFile(Paths.get("./../favicon.ico"),"image/x-icon");					
 		}
 		else {
 			System.out.println("In doPageCreationRequest : This is not a pageCreationRequest.");
@@ -135,14 +135,14 @@ public class ServiceThread extends Thread {
 	}
 	
 	//Makes the header of the HTML packet that we will send
-	public String makeHeader(int lengthData) {
+	public String makeHeader(int lengthData, String contentType) {
 
 		String packetHeader = new String("HTTP/1.0 200 OK\n");
 		//date
 		Date today = Calendar.getInstance().getTime();
 		packetHeader += today.toString() + " Server : Serveur Java\n";
 		//type of data
-		packetHeader += "Content-Type : text/HTML\n";
+		packetHeader += "Content-Type : " + contentType + "\n";
 		//length of data
 		packetHeader += "Content-Length : " + lengthData + "\n";
 		//data last modified
@@ -153,13 +153,13 @@ public class ServiceThread extends Thread {
 
 
 	//Send a file to the connected pair
-	public void sendFile(Path filePath) throws IOException{
+	public void sendFile(Path filePath, String contentType) throws IOException{
 		PrintStream outp = null;
 
 		outp = new PrintStream(s.getOutputStream());
 		byte[] fileToSend = Files.readAllBytes(filePath);
 
-		String packetHeader = makeHeader(fileToSend.length);
+		String packetHeader = makeHeader(fileToSend.length,contentType);
 
 		outp.write(packetHeader.getBytes());
 		outp.write(fileToSend);
