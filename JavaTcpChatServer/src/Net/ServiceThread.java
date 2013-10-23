@@ -119,18 +119,18 @@ public class ServiceThread extends Thread {
 
 	// Send element for the chat, those request are from the JavaScript running on the client side
 	// return true if the data requested was needed by the chat
-	public boolean sendElementForJavaScriptChat(String pageRequested, String Data) throws IOException {
+	public boolean sendElementForJavaScriptChat(String pageRequested, String Data) {
 		return false;
 	}
 	
 	// Get ChatLine from the chat, this request is from the JavaScript running on the client side
 	// return null if the data received was not a ChatLine from the chat
-	public ChatLine getChatLineFromJavaScriptChat(String pageRequested, String Data) throws IOException {
+	public ChatLine getChatLineFromJavaScriptChat(String pageRequested, String Data) {
 		return null;
 	}
 	// Get participant from the chat, this request is from the JavaScript running on the client side
 	// return null if the data received was not a participant from the chat
-	public Participant getParticipantFromJavaScriptChat(String pageRequested, String Data) throws IOException {
+	public Participant getParticipantFromJavaScriptChat(String pageRequested, String Data) {
 		return null;
 	}
 	
