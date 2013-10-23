@@ -53,7 +53,7 @@ public class TestChat {
 		System.out.println("Convertion of ChatLines to JSON notation :\n");
 		System.out.println("----\n"+ChatConvert.convertChatLinesToJSON(chat.getChatFrom(2),2)+"----\n");
 		System.out.println("Convertion of Participants to JSON notation :\n");
-		System.out.println("----\n"+ChatConvert.convertChatParticipantsToJS(chat.getParticipants(),1)+"----\n");
+		System.out.println("----\n"+ChatConvert.convertChatParticipantsToJSON(chat.getParticipants(),1)+"----\n");
 
 	}
 }

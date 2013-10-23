@@ -49,7 +49,7 @@ public class ChatConvert {
 	//					name:'Gabriel'
 	//					}
 	//}
-	public static String convertChatParticipantsToJS(ArrayList<Participant> participants, int beginNumerotation) {
+	public static String convertChatParticipantsToJSON(ArrayList<Participant> participants, int beginNumerotation) {
 		String result = null;
 		result = "{\n";
 		
@@ -70,6 +70,35 @@ public class ChatConvert {
 			beginNumerotation ++;
 		}
 		result += "}\n}\n";
+		return result;
+	}
+	
+	//Convert chatLines in a JSON notation to an array of chatLine in Java formatting
+	//ex : 
+	//{
+	//		ChatLine3:	{
+	//					name:'Gabriel',
+	//					sendTime: '21:26:10',
+	//					message: 'hello'
+	//				},
+	//		ChatLine4:	{
+	//					name:'Gabriel',
+	//					sendTime: '21:26:20',
+	//					message: 'No one?'
+	//				},
+	//		ChatLine5:	{
+	//					name:'Gabriel',
+	//					sendTime: '21:26:30',
+	//					message: 'fuck'
+	//				}
+	//}
+	// gives : a list with those three messages with :
+	// at 0 : <name = "Gabriel" sendTime="21:26:10" message="hello">
+	// at 1 : <name = "Gabriel" sendTime="21:26:20" message="No one?">
+	// at 2 : <name = "Gabriel" sendTime="21:26:30" message="fuck">
+	public static ArrayList<ChatLine> convertChatParticipantsFromJSON(String object) {
+		ArrayList<ChatLine> result = new ArrayList<ChatLine>();
+		result.add(new ChatLine("Unknown","Unknown","Unknown"));
 		return result;
 	}
 }
