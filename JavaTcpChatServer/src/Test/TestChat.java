@@ -6,7 +6,7 @@ import convertion.ChatConvert;
 
 public class TestChat {
 	public static void main (String[] args) {
-		test2();
+		test3();
 	}
 
 	public static void test1() {
@@ -56,4 +56,13 @@ public class TestChat {
 		System.out.println("----\n"+ChatConvert.convertChatParticipantsToJSON(chat.getParticipants(),1)+"----\n");
 
 	}
+	
+	public static void test3() {
+		System.out.println("#########");
+		System.out.println("# TEST3 #");
+		System.out.println("#########");
+		ChatLine chatline = ChatConvert.convertChatParticipantsFromJSON("name:'Justine',sendTime:10:25:30,message:'Hello'");
+		System.out.println(chatline.toString());
+	}
+	
 }
