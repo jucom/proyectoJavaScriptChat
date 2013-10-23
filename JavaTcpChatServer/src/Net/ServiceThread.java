@@ -7,18 +7,23 @@ import java.net.Socket;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
+import Chat.Chat;
 import Chat.ChatLine;
 import Chat.Participant;
+import convertion.ChatConvert;
 
 public class ServiceThread extends Thread {
 	private Socket s;
+	private Chat chat;
 
-	public ServiceThread(Socket s) {
+	public ServiceThread(Socket s,Chat chat) {
 		super();
 		this.s = s;
+		this.chat = chat;
 	}
 	public void run() {
 		BufferedReader inp = null;
@@ -40,15 +45,15 @@ public class ServiceThread extends Thread {
 			System.out.println("---------------------------------");
 			System.out.println(request);
 			System.out.println("---------------------------------");
-			
+
 			pageRequested = pageRequested(request);
 			data = dataReceived(request);
-			
+
 			if (request.startsWith("GET ")){ 
 				// if it wasn't an element needed for the page creation
 				// then it must be an element needed for the chat
 				if (!sendElementForPageCreation(pageRequested)) {
-					sendElementForJavaScriptChat(pageRequested,data);
+					sendElementForJavaScriptChat(pageRequested);
 				}
 			}
 			else if (request.startsWith("POST ")){
@@ -63,7 +68,7 @@ public class ServiceThread extends Thread {
 					}
 				}
 			}
-			
+
 			inp.close();
 			s.close();
 		} catch (IOException e) {
@@ -81,7 +86,7 @@ public class ServiceThread extends Thread {
 		System.out.println("---------------------------------");
 		System.out.println(pageRequested);
 		System.out.println("---------------------------------");
-		
+
 		return pageRequested;		
 	}
 
@@ -89,12 +94,12 @@ public class ServiceThread extends Thread {
 	public String dataReceived(String request) {
 		return null;		
 	}
-	
+
 	// Send element for the page creation, those request are usually from mozilla
 	// return true if the file requested was needed for the page creation
 	public boolean sendElementForPageCreation(String pageRequested) throws IOException {
 		boolean sent = true;
-		
+
 		if (pageRequested.equals("/chat.html")) {
 			sendFile(Paths.get("./../chat.html"),"text/html");
 			System.out.println("In sendElementForPageCreation : page sent.");
@@ -128,10 +133,26 @@ public class ServiceThread extends Thread {
 
 	// Send element for the chat, those request are from the JavaScript running on the client side
 	// return true if the data requested was needed by the chat
-	public boolean sendElementForJavaScriptChat(String pageRequested, String Data) {
-		return false;
+	public boolean sendElementForJavaScriptChat(String pageRequested) throws IOException {
+		boolean sent = true;
+		if (pageRequested.startsWith("/chat.java?")) {
+			String functionRequested = pageRequested.substring("/chat.java?".length());
+			if (functionRequested.startsWith("chatFrom")) {
+				String sCursor = functionRequested.substring("chatFrom(".length(), functionRequested.length()-1);
+				int cursor = Integer.parseInt(sCursor);
+				ArrayList<ChatLine> subChat = chat.getChatFrom(cursor);
+				String nextMessages = ChatConvert.convertChatLinesToJSON(subChat, cursor);
+				System.out.println("In sendElementForJavaScriptChat : sending\n" + nextMessages);
+				sendMessage(nextMessages, "text/plain");
+			}
+		}
+		else {
+			System.out.println("In sendElementForJavaScriptChat : This is not an element for the chat");
+			sent = false;
+		}
+		return sent;
 	}
-	
+
 	// Get ChatLine from the chat, this request is from the JavaScript running on the client side
 	// return null if the data received was not a ChatLine from the chat
 	public ChatLine getChatLineFromJavaScriptChat(String pageRequested, String Data) {
@@ -142,7 +163,7 @@ public class ServiceThread extends Thread {
 	public Participant getParticipantFromJavaScriptChat(String pageRequested, String Data) {
 		return null;
 	}
-	
+
 	//Makes the header of the HTML packet that we will send
 	public String makeHeader(int lengthData, String contentType) {
 
@@ -173,16 +194,32 @@ public class ServiceThread extends Thread {
 		outp.write(packetHeader.getBytes());
 		outp.write(fileToSend);
 
-//		System.out.println("In sendFile : ");
-//		System.out.println("---------------------------------");
-//		System.out.println(packetHeader);
-//		System.out.println(new String(fileToSend));
-//		System.out.println("---------------------------------");
+		//		System.out.println("In sendFile : ");
+		//		System.out.println("---------------------------------");
+		//		System.out.println(packetHeader);
+		//		System.out.println(new String(fileToSend));
+		//		System.out.println("---------------------------------");
 		outp.close();	
 	}
-	
+
 	//Send a String to the connected pair
-	public void sendMessage(String message){
+	public void sendMessage(String message, String contentType) throws IOException{
+		PrintStream outp = null;
+
+		outp = new PrintStream(s.getOutputStream());
+		byte[] fileToSend = message.getBytes();
+
+		String packetHeader = makeHeader(fileToSend.length,contentType);
+
+		outp.write(packetHeader.getBytes());
+		outp.write(fileToSend);
+
+		//		System.out.println("In sendFile : ");
+		//		System.out.println("---------------------------------");
+		//		System.out.println(packetHeader);
+		//		System.out.println(new String(fileToSend));
+		//		System.out.println("---------------------------------");
+		outp.close();	
 	}
-	
+
 }

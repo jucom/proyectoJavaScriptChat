@@ -3,10 +3,12 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import Chat.Chat;
+
 
 public class ServidorWeb {
 
-    public static void runServer() throws Exception {
+    public static void runServer(Chat chat) throws Exception {
         ServerSocket sockfd;
         Socket newsockfd;
         int portno;
@@ -32,7 +34,7 @@ public class ServidorWeb {
 	        	newsockfd = sockfd.accept();
 	        
 	        	//once connexion is estableached we make a new thread
-	        	doService = new ServiceThread(newsockfd);
+	        	doService = new ServiceThread(newsockfd,chat);
 	        	doService.start();
 	        }
 		} catch (IOException e) {

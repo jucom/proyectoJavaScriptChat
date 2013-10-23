@@ -39,7 +39,7 @@ public class TestChat {
 			System.out.println(theParticipants[i]);
 		}
 	}
-	
+
 	public static void test2() {
 		System.out.println("#########");
 		System.out.println("# TEST2 #");
@@ -60,7 +60,7 @@ public class TestChat {
 		System.out.println("----\n"+ChatConvert.convertChatParticipantsToJSON(chat.getParticipants(),1)+"----\n");
 
 	}
-	
+
 	public static void test3() {
 		System.out.println("#########");
 		System.out.println("# TEST3 #");
@@ -68,17 +68,27 @@ public class TestChat {
 		ChatLine chatline = ChatConvert.convertChatParticipantsFromJSON("name:'Justine',sendTime:'10:25:30',message:'Hello'");
 		System.out.println(chatline.toString());
 	}
-	
+
 	public static void test4() {
 		System.out.println("#########");
 		System.out.println("# TEST4 #");
 		System.out.println("#########");
-		try {
-			ServidorWeb.runServer();
+		try {	
+			Chat chat = new Chat();
+			ChatLine line1 = new ChatLine("Hola todos","gabriel","17:24:26");
+			ChatLine line2 = new ChatLine("Hola","justine","17:24:40");
+			ChatLine line3 = new ChatLine("¿Hola gabriel que estas haciendo?","thomas","17:25:00");
+			chat.addLine(line1);
+			chat.addLine(line2);
+			chat.addLine(line3);
+			chat.addParticipant("Gabriel");
+			chat.addParticipant("Justine");
+			chat.addParticipant("Thomas");
+			ServidorWeb.runServer(chat);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-	
+
 }
