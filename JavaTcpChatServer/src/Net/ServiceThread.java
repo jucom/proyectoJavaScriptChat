@@ -10,6 +10,9 @@ import java.nio.file.Paths;
 import java.util.Calendar;
 import java.util.Date;
 
+import Chat.ChatLine;
+import Chat.Participant;
+
 public class ServiceThread extends Thread {
 	private Socket s;
 
@@ -26,6 +29,7 @@ public class ServiceThread extends Thread {
 			int length = 0;
 			String request = new String();
 			String pageRequested = new String();
+			String data = new String();
 
 			//reading message received
 			inp = new BufferedReader(new InputStreamReader(s.getInputStream()));
@@ -36,28 +40,30 @@ public class ServiceThread extends Thread {
 			System.out.println("---------------------------------");
 			System.out.println(request);
 			System.out.println("---------------------------------");
-			if (request.startsWith("GET ")){ // || request.startsWith("POST ")){
-				pageRequested = request.split(" ")[1];
-				System.out.println("pageRequested : ");
-				System.out.println("---------------------------------");
-				System.out.println(pageRequested);
-				System.out.println("---------------------------------");
-				if (pageRequested.equals("/chat.html")) {
-					sendFile(Paths.get("./../chat.html"));
-				}
-				else if (pageRequested.equals("/stylechat.css")) {
-					sendFile(Paths.get("./../stylechat.css"));					
-				}
-				else if (pageRequested.equals("/fond_chat.jpeg")) {
-					sendFile(Paths.get("./../fond_chat.jpeg"));					
-				}
-				else if (pageRequested.equals("/fond_side.jpg")) {
-					sendFile(Paths.get("./../fond_side.jpg"));					
-				}
-				else if (pageRequested.equals("/favicon.ico")) {
-					sendFile(Paths.get("./../favicon.ico"));					
+			
+			pageRequested = pageRequested(request);
+			data = dataReceived(request);
+			
+			if (request.startsWith("GET ")){ 
+				// if it wasn't an element needed for the page creation
+				// then it must be an element needed for the chat
+				if (!sendElementForPageCreation(pageRequested)) {
+					sendElementForJavaScriptChat(pageRequested,data);
 				}
 			}
+			else if (request.startsWith("POST ")){
+				ChatLine line = getChatLineFromJavaScriptChat(pageRequested, data);
+				if (line != null) {
+					//Add the line to the chat
+				}
+				else {
+					Participant participant = getParticipantFromJavaScriptChat(pageRequested,data);
+					if (participant != null) {
+						//Add the participant to the chat participants
+					}
+				}
+			}
+			
 			inp.close();
 			s.close();
 		} catch (IOException e) {
@@ -68,6 +74,67 @@ public class ServiceThread extends Thread {
 		}
 	}
 
+	//Extract the page requested from the packet header
+	public String pageRequested(String request) {
+		String pageRequested = request.split(" ")[1];
+		System.out.println("pageRequested : ");
+		System.out.println("---------------------------------");
+		System.out.println(pageRequested);
+		System.out.println("---------------------------------");
+		
+		return pageRequested;		
+	}
+
+	//Extract the data from the packet
+	public String dataReceived(String request) {
+		return null;		
+	}
+	
+	// Send element for the page creation, those request are usually from mozilla
+	// return true if the file requested was needed for the page creation
+	public boolean sendElementForPageCreation(String pageRequested) throws IOException {
+		boolean sent = true;
+		
+		if (pageRequested.equals("/chat.html")) {
+			sendFile(Paths.get("./../chat.html"));
+		}
+		else if (pageRequested.equals("/stylechat.css")) {
+			sendFile(Paths.get("./../stylechat.css"));					
+		}
+		else if (pageRequested.equals("/fond_chat.jpeg")) {
+			sendFile(Paths.get("./../fond_chat.jpeg"));					
+		}
+		else if (pageRequested.equals("/fond_side.jpg")) {
+			sendFile(Paths.get("./../fond_side.jpg"));					
+		}
+		else if (pageRequested.equals("/favicon.ico")) {
+			sendFile(Paths.get("./../favicon.ico"));					
+		}
+		else {
+			System.out.println("In doPageCreationRequest : This is not a pageCreationRequest.");
+			sent = false;
+		}
+		return sent;
+	}
+
+	// Send element for the chat, those request are from the JavaScript running on the client side
+	// return true if the data requested was needed by the chat
+	public boolean sendElementForJavaScriptChat(String pageRequested, String Data) throws IOException {
+		return false;
+	}
+	
+	// Get ChatLine from the chat, this request is from the JavaScript running on the client side
+	// return null if the data received was not a ChatLine from the chat
+	public ChatLine getChatLineFromJavaScriptChat(String pageRequested, String Data) throws IOException {
+		return null;
+	}
+	// Get participant from the chat, this request is from the JavaScript running on the client side
+	// return null if the data received was not a participant from the chat
+	public Participant getParticipantFromJavaScriptChat(String pageRequested, String Data) throws IOException {
+		return null;
+	}
+	
+	//Makes the header of the HTML packet that we will send
 	public String makeHeader(int lengthData) {
 
 		String packetHeader = new String("HTTP/1.0 200 OK\n");
@@ -84,6 +151,8 @@ public class ServiceThread extends Thread {
 		return packetHeader;		
 	}
 
+
+	//Send a file to the connected pair
 	public void sendFile(Path filePath) throws IOException{
 		PrintStream outp = null;
 
@@ -102,4 +171,9 @@ public class ServiceThread extends Thread {
 //		System.out.println("---------------------------------");
 		outp.close();	
 	}
+	
+	//Send a String to the connected pair
+	public void sendMessage(String message){
+	}
+	
 }
