@@ -17,7 +17,7 @@ public class ChatConvert {
 	//				}
 	//}
 	public static String convertChatLinesToJSON(ArrayList<ChatLine> messages, int beginNumerotation) {
-		String result = null;
+		String result = new String();
 		
 		ListIterator<ChatLine> messIt = messages.listIterator();
 		ChatLine currentLine;
