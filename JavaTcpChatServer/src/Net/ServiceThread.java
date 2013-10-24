@@ -57,14 +57,18 @@ public class ServiceThread extends Thread {
 				}
 			}
 			else if (request.startsWith("POST ")){
-				ChatLine line = getChatLineFromJavaScriptChat(pageRequested, data);
+				// if the request = /chat.java?
+				// if request.substring = sendLine
+				ChatLine line = getChatLineFromJavaScriptChat(data);
 				if (line != null) {
 					//Add the line to the chat
 				}
 				else {
+					// if request.substring = sendParticipant
 					Participant participant = getParticipantFromJavaScriptChat(data);
 					if (participant != null) {
 						//Add the participant to the chat participants
+						//Remenber participant name
 					}
 				}
 			}
@@ -153,18 +157,25 @@ public class ServiceThread extends Thread {
 		return sent;
 	}
 
-	// Get ChatLine from the chat, this request is from the JavaScript running on the client side
-	// return null if the data received was not a ChatLine from the chat
-	public ChatLine getChatLineFromJavaScriptChat(String pageRequested, String Data) {
-		return null;
+	// Add a ChatLine to the the chat, this request is from the JavaScript running on the client side
+	// return null if the data is emtpy
+	public ChatLine getChatLineFromJavaScriptChat(String Data) {
+		if (Data.isEmpty()){
+			return null;
+		}
+		else {
+			ChatLine line = ChatConvert.convertChatParticipantsFromJSON(Data);
+			return line;
+		}
+		
 	}
-	// Add participant to the chat, this request is from the JavaScript running on the client side
+	// Add a participant to the chat, this request is from the JavaScript running on the client side
 	// return null if the data is empty
 	public Participant getParticipantFromJavaScriptChat(String Data) {
 		if (Data.isEmpty()) {
 			return null;
 		}
-		else{
+		else {
 			Participant newParticipant = new Participant(Data);
 			return newParticipant;
 		}
