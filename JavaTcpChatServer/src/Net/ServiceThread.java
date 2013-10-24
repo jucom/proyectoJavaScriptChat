@@ -62,7 +62,7 @@ public class ServiceThread extends Thread {
 					//Add the line to the chat
 				}
 				else {
-					Participant participant = getParticipantFromJavaScriptChat(pageRequested,data);
+					Participant participant = getParticipantFromJavaScriptChat(data);
 					if (participant != null) {
 						//Add the participant to the chat participants
 					}
@@ -158,10 +158,16 @@ public class ServiceThread extends Thread {
 	public ChatLine getChatLineFromJavaScriptChat(String pageRequested, String Data) {
 		return null;
 	}
-	// Get participant from the chat, this request is from the JavaScript running on the client side
-	// return null if the data received was not a participant from the chat
-	public Participant getParticipantFromJavaScriptChat(String pageRequested, String Data) {
-		return null;
+	// Add participant to the chat, this request is from the JavaScript running on the client side
+	// return null if the data is empty
+	public Participant getParticipantFromJavaScriptChat(String Data) {
+		if (Data.isEmpty()) {
+			return null;
+		}
+		else{
+			Participant newParticipant = new Participant(Data);
+			return newParticipant;
+		}
 	}
 
 	//Makes the header of the HTML packet that we will send
