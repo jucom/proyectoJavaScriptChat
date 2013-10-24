@@ -25,14 +25,11 @@ function updateChat() {
     xhr.onreadystatechange = function() {
         if (xhr.readyState == xhr.DONE) {
             var received = xhr.responseText;
-            alert(received);
-            var obj = JSON.parse(received);
-            //chatBody.innerHTML += 'update ' + cursor + ' <br/>';
-            //cursor++;
-            cursor += obj.length;
-            //for (int i=0, c=received.length; i<c; i++) {
-            //   chatBody.innerHTML += received[i] + '<br/>';
-            //}
+            var lines = JSON.parse(received);
+            cursor += lines.length;
+            for (var i=0, c=lines.length; i<c; i++) {
+                chatBody.innerHTML += lines[i].sendTime + ' ' + lines[i].name + ' : ' + lines[i].message + '<br/>';
+            }
         }
     }
 }

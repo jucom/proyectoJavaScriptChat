@@ -18,27 +18,31 @@ public class ChatConvert {
 	//}
 	public static String convertChatLinesToJSON(ArrayList<ChatLine> messages, int beginNumerotation) {
 		String result = null;
-		result = "{\n";
 		
 		ListIterator<ChatLine> messIt = messages.listIterator();
 		ChatLine currentLine;
 		boolean first = true;
 		while (messIt.hasNext()) {
+			//if it is the first time we put the opening brackets
 			if (first) {
+				result = "[";
 				first = false;
 			} 
+			//if it is not the first and we are here :
 			else {
 				//need to put that after the object we did to separate it from the new object following
 				result += "},\n";
 			}
 			currentLine = messIt.next();
-			result += "ChatLine" + beginNumerotation+":{\n";
-			result += "name:\'" + currentLine.getName()+"\',\n";
-			result += "sendTime:\'" + currentLine.getSendTime()+"\',\n";
-			result += "message:\'" + currentLine.getMessage()+"\'\n";
+			result += "{";
+			result += "\"name\":\"" + currentLine.getName()+"\",";
+			result += "\"sendTime\":\"" + currentLine.getSendTime()+"\",";
+			result += "\"message\":\"" + currentLine.getMessage()+"\"";
 			beginNumerotation ++;
 		}
-		result += "}\n}\n";
+		if (!result.isEmpty()) {
+			result += "}]";
+		}
 		return result;
 	}
 
