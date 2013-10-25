@@ -65,7 +65,7 @@ public class TestChat {
 		System.out.println("#########");
 		System.out.println("# TEST3 #");
 		System.out.println("#########");
-		ChatLine chatline = ChatConvert.convertChatParticipantsFromJSON("name:'Justine',sendTime:'10:25:30',message:'Hello'");
+		ChatLine chatline = ChatConvert.convertChatParticipantsFromJSON("{\"sendTime\":\"03:13:17\",\"name\":\"gabriel\",\"message\":\"cool\"}");
 		System.out.println(chatline.toString());
 	}
 

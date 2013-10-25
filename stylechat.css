@@ -55,7 +55,7 @@ header
     background-image:url("fond_side.jpg");
 }
 
-#mensaje
+#messageToSend
 {
     border-radius: 10px;
     position: absolute;

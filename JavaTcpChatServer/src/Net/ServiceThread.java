@@ -57,25 +57,31 @@ public class ServiceThread extends Thread {
 				}
 			}
 			else if (request.startsWith("POST ")){
-				// if the request = /chat.java?
-				// if request.substring = sendLine
-				ChatLine line = getChatLineFromJavaScriptChat(data);
-				if (line != null) {
-					//Add the line to the chat
-				}
-				else {
-					// if request.substring = sendParticipant
-					Participant participant = getParticipantFromJavaScriptChat(data);
-					if (participant != null) {
-						//Add the participant to the chat participants
-						//Remenber participant name
+				if (pageRequested.startsWith("/chat.java?")) {
+					String functionRequested = pageRequested.substring("/chat.java?".length());
+					// if request.substring = sendLine
+					if (functionRequested.startsWith("sendLine")) {
+						ChatLine line = getChatLineFromJavaScriptChat(data);
+						if (line != null) {
+							//Add the line to the chat
+							chat.addLine(line);
+						}
+					}
+					else if (functionRequested.startsWith("sendParticipant")) { 
+						// if request.substring = sendParticipant
+						Participant participant = getParticipantFromJavaScriptChat(data);
+						if (participant != null) {
+							//Add the participant to the chat participants
+							System.out.println(participant.toString());
+						}
 					}
 				}
 			}
 
 			inp.close();
 			s.close();
-		} catch (IOException e) {
+		} 
+				catch (IOException e) {
 			System.err.println("---------------------------------");
 			System.err.println("Error in run : ");
 			e.printStackTrace();
@@ -85,6 +91,8 @@ public class ServiceThread extends Thread {
 
 	//Extract the page requested from the packet header
 	public String pageRequested(String request) {
+		System.out.println("pageRequested : ");
+		System.out.println(request);
 		String pageRequested = request.split(" ")[1];
 		System.out.println("pageRequested : ");
 		System.out.println("---------------------------------");
@@ -96,7 +104,34 @@ public class ServiceThread extends Thread {
 
 	//Extract the data from the packet
 	public String dataReceived(String request) {
-		return null;		
+		String newRequest = new String();
+		newRequest = getRidOfEmptyBytes(request.split("\r\n\r\n")[1]);
+
+		System.out.println("Data received : ");
+		System.out.println("---------------------------------");
+		System.out.println(newRequest);
+		System.out.println("It's length : " + newRequest.length());
+		System.out.println("---------------------------------");
+		return newRequest;		
+	}
+	
+	//Get rid of the 00000000.... in the end of a string
+	public String getRidOfEmptyBytes(String toTreat) {
+		byte[] result = null;
+		byte[] translate = toTreat.getBytes();
+		boolean endFound = false;
+		int i = 0;
+		while (i<translate.length && !endFound) {
+			i++;
+			if (translate[i]==0) {
+				endFound = true;
+			}
+		}
+		result = new byte[i];
+		for(int j=0; j<i; j++){
+			result[j] = translate[j];
+		}
+		return new String(result);
 	}
 
 	// Send element for the page creation, those request are usually from mozilla
@@ -148,6 +183,8 @@ public class ServiceThread extends Thread {
 				String nextMessages = ChatConvert.convertChatLinesToJSON(subChat, cursor);
 				System.out.println("In sendElementForJavaScriptChat : sending\n" + nextMessages);
 				sendMessage(nextMessages, "text/plain");
+			} else if (functionRequested.startsWith("participantsToTheChat")) {
+				
 			}
 		}
 		else {

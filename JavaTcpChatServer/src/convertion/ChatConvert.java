@@ -108,30 +108,26 @@ public class ChatConvert {
 	
 	//Convert a ChatLine in a JSON notation to an array of chatLine in Java formatting
 	//ex : 
-	//{
-	//		ChatLine3:	{
-	//					name:'Gabriel',
-	//					sendTime: '21:26:10',
-	//					message: 'hello'
-	//				}
-	//}
+	//{"sendTime":"03:13:17","name":"gabriel","message":"cool"}
 	// gives a ChatLine with :
-	// <name = "Gabriel" sendTime="21:26:10" message="hello">
+	// <name = "gabriel" sendTime="03:13:17" message="cool">
 	public static ChatLine convertChatParticipantsFromJSON(String object) {	
 		//find the name
-		String name = object.split("name:")[1];
-		name = name.split("sendTime:")[0];
-		name = name.substring(1, name.length() - 2);
-		//System.out.println("name : " + name);
-		//find the sendTime
-		String sendTime = object.split("sendTime:")[1];
-		sendTime = sendTime.split("message")[0];
+		
+		
+		String sendTime = object.split("\"sendTime\":")[1];
+		sendTime = sendTime.split("\"name\":")[0];
 		sendTime = sendTime.substring(1, sendTime.length() - 2);
-		//System.out.println("sendTime : " + sendTime);
+		System.out.println("sendTime : " + sendTime);
+		//find the sendTime
+		String name = object.split("\"name\":")[1];
+		name = name.split("\"message\":")[0];
+		name = name.substring(1, name.length() - 2);
+		System.out.println("name: " + name);
 		//find the message
-		String message = object.split("message:")[1];
-		message = message.substring(1, message.length() - 1);
-		//System.out.println("message : " + message);
+		String message = object.split("\"message\":")[1];
+		message = message.substring(1, message.length() - 2);
+		System.out.println("message : " + message);
 		
 		return new ChatLine(message,name,sendTime);
 	}
