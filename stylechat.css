@@ -30,7 +30,11 @@ header
     overflow:scroll;
       overflow-x:auto;
       overflow-y:none;
-   
+    /*  
+    padding-right:30px;
+    padding-left:30px;
+    */
+    
     position: absolute;
     right: 50px;
     bottom: 110px;
@@ -59,6 +63,7 @@ header
 {
     border-radius: 10px;
     position: absolute;
+ 
     right: 50px;
     bottom: 50px;
     left: 250px;
@@ -74,3 +79,21 @@ header
     width: 70px;
     height: 25px;
 }
+
+.sendTime
+{
+  color:#b3afaf;
+}
+
+.name
+{
+  color:#7b47b9;
+  font-weight:bold;
+}
+
+.message
+{
+  color:black;
+}
+
+
